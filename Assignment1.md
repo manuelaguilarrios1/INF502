@@ -60,6 +60,7 @@ It will then cycle through the grade thresholds to decide the letter grade.
 Code:
 
 ```python
+import statistics
 def grade_calc(grades, to_drop):
     newGrades = grades.copy() # create new list  so that the original list is not affected
     newGrades.sort() # sort new list in ascending order
