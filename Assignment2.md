@@ -6,15 +6,15 @@ Git log --decorate displays all commits, authors, dates, and tags.
 * master
   math
   
->git checkout master
-Already on 'master'
+>git checkout math
+Switched to branch 'math'
 
 >git log --decorate
-commit 18931d12a8be7cac049b73c6bc8136e9482f3371 (HEAD -> master)
+commit e3c629dd524712aedea96d7dbaad1c50d12b5b5e (HEAD -> math)
 Author: Igor Steinmacher <igorsteinmacher@gmail.com>
-Date:   Wed Aug 14 23:15:28 2019 -0700
+Date:   Wed Aug 14 23:13:48 2019 -0700
 
-    Making a small change here
+    Adding some more knowledge to the function
 
 commit 654b490a181dedf82dd6deda5f9848d6cca05918
 Author: Igor Steinmacher <igorsteinmacher@gmail.com>
@@ -28,7 +28,7 @@ Date:   Wed Aug 14 23:08:47 2019 -0700
 
      Creating all files (all empty)
 ```
-Question 2: This lists all references, commits, authors, dates, and tags
+Question 2: This lists all references, commits, authors, dates, tags, and branches
 ```
 >git log --graph --all
 * commit 18931d12a8be7cac049b73c6bc8136e9482f3371 (HEAD -> master)
@@ -55,40 +55,53 @@ Question 2: This lists all references, commits, authors, dates, and tags
 
        Creating all files (all empty)
 ```
-Question 3: This lists a completely different branch with a python function in it. The master branch did not have anything in it.
+Question 3: This lists the differences in the branches. What is same is in white, what is missing is in red denoted with a '-' in front of the missing line, and what is the missing in the other file is in green with a '+' in front of said line. 
 ```
->git diff math
+>git diff master
 diff --git a/A.py b/A.py
-index 0afa98c..dc1e9bd 100644
+index dc1e9bd..0afa98c 100644
 --- a/A.py
 +++ b/A.py
-@@ -1,11 +1,3 @@
+@@ -1,3 +1,11 @@
  #this is just an example, do not freak out
  def calculate_this(operator, num1, num2):
--   if operator == 'sum':
--      print num1 + num2
--      print 'That was easy buddy'
--   else:
--      if operator == 'subtraction':
--         print num1 - num2
--         print 'I could handle that...'
--      else:
--         print 'my knowledge is limited'
-+   print 'my knowledge is limited'
+-   print 'my knowledge is limited'
++   if operator == 'sum':
++      print num1 + num2
++      print 'That was easy buddy'
++   else:
++      if operator == 'subtraction':
++         print num1 - num2
++         print 'I could handle that...'
++      else:
++         print 'my knowledge is limited'
 diff --git a/B.py b/B.py
-index e69de29..c63f94c 100644
+index c63f94c..e69de29 100644
 --- a/B.py
 +++ b/B.py
-@@ -0,0 +1 @@
-+# Another file that will receive a line of code... at least.
+@@ -1 +0,0 @@
+-# Another file that will receive a line of code... at least.
 ```
-Question 4: 
+Question 4: First we merge the master from the math, then we switch to the master and merge math to the master. 
 ```
->git config --global user.name "Manuel Aguilar"
->git config --global user.email "maa778@nau.edu"
+>git merge master
+Merge made by the 'recursive' strategy.
+ B.py | 1 +
+ 1 file changed, 1 insertion(+)
+>git checkout master
+Switched to branch 'master'
 >git merge math
+Updating 18931d1..aea1f5a
+Fast-forward
+ A.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 ```
 Question 5:
+```
+>git branch -d math
+Deleted branch math (was aea1f5a).
+>git checkout -b math
+Switched to a new branch 'math'
 ```
 >
 
