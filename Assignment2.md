@@ -227,7 +227,7 @@ index 66ca0b7..2c7969a 100644
  1 file changed, 2 insertions(+)
 
 ```
-Question 12: Use git diff, then edit the file to remove the unnecessary lines
+Question 12: Use git diff, then edit the file to remove the unnecessary lines, add the file then use git commit to finalize the changes
 ```
 >git diff math
 diff --git a/B.py b/B.py
@@ -246,3 +246,30 @@ index 66ca0b7..ea734ee 100644
 \ No newline at end of file
 +print 2+2
 +>>>>>>> math
+>notepad B.py
+>git merge math
+Auto-merging B.py
+CONFLICT (content): Merge conflict in B.py
+Automatic merge failed; fix conflicts and then commit the result.
+Merge branch 'math' into master
+
+# Conflicts:
+#       B.py
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#       .git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#       modified:   B.py
+#
+~                                                                                                                       ~                                                                                                                       ~                                                                                                                       ~                                                                                                                       ~                                                                                                                       ~                                                                                                                       ~                                                                                                                       ~  
+ Merge branch 'math' into master
