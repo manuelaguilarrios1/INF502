@@ -1,6 +1,6 @@
 # PA1 DNA Similarity
-Th goal of the of this project is to get two DNA sequences from two files and seeing how many DNA characters match using two different matching methods, number of matches and maximum contiguous chain. 
-For both these methods, a user inputted max shift is needed to add into the mathcing methods. The approach I took with this project is to compare two list of strings with a different function with for each matching method.
+The goal of the of this project is to get two DNA sequences from two files and seeing how many DNA characters match using two different matching methods, number of matches and maximum contiguous chain. 
+For both these methods, a user input max shift is needed to add into the mathcing methods. The approach I took with this project is to compare two list of strings with a different function with for each matching method.
 For the number of matches method, a for loop check each char in both sequences and see if they match. If they match, a match counter increases and the then final match counter will be given as the score.
 For the maximum contiguous method, a for loop will check each char in both sequences and see if they match. A match counter will increase with each match, but if the char don't match the match counter will be put in a match counter list and then be reset to 0. 
 To shift the sequences, the appropiate number of spaces will be added to the beginning or the end of the  respective list. The two sequences will then be printed out for each shift along with the score so that the user can see the result. 
