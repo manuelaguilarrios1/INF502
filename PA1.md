@@ -33,7 +33,6 @@ def AskForInfo():
         except (ValueError, TypeError):
             print("Please enter an integer number")
             max_shift = "Error"
-
     check = checkSequence(file1,file2)
     output = [file1, file2, max_shift, check]
     return output
@@ -65,7 +64,6 @@ def match_score(s1, s2):
         if s1[i] == s2[i]:
             score = score + 1
     return score
-
 def continuous_score(s1, s2):
     score = 0
     score_count = []
@@ -78,15 +76,21 @@ def continuous_score(s1, s2):
     score_count.append(score)
     score_count.sort()
     return score_count[-1]
-
-def compare_sequences_matches(sequence1, sequence2, max_shift):
+def compare_sequences_matches(sequence1, sequence2, max_shift, option):
     for j in range(max_shift+1):
         if j == 0:
-            score = match_score(sequence1, sequence2)
-            print("With no shifting the match score for the DNA sequences is: "+str(score))
-            print(" ")
-            print_sequence(sequence1)
-            print_sequence(sequence2)
+            if option == 1:
+                score = match_score(sequence1, sequence2)
+                print("With no shifting the match score for the DNA sequences is: "+str(score))
+                print_sequence(sequence1)
+                print_sequence(sequence2)
+                print(" ")
+            elif option == 2:
+                score = continuous_score(sequence1, sequence2)
+                print("With no shifting the continous DNA sequence score is: " + str(score))
+                print_sequence(sequence1)
+                print_sequence(sequence2)
+                print(" ")
         else:
             #Make copies to avoid changing the original sequences and reset sequences
             s1 = sequence1.copy()
@@ -95,62 +99,35 @@ def compare_sequences_matches(sequence1, sequence2, max_shift):
             for i in range(j):
                 s1.insert(0, " ")
                 s2.append(" ")
-            score = match_score(s1,s2)
-            print("By shifting sequence 1 by " + str(j) + " the score is: " + str(score))
-            print(" ")
+            if option == 1:
+                score = match_score(s1,s2)
+                print("By shifting sequence 1 by " + str(j) + " the matching score is: " + str(score))
+                print(" ")
+            elif option == 2:
+                score = continuous_score(s1, s2)
+                print(" ")
+                print("By shifting sequence 1 by " + str(j) + " the continous score is: " + str(score))
             print_sequence(s1)
             print_sequence(s2)
+            print(" ")
             #Reset sequence copies for right shift
             s1 = sequence1.copy()
             s2 = sequence2.copy()
             for i in range(j):
                 s2.insert(0, " ")
                 s1.append(" ")
-            score = match_score(s1,s2)
-            print(" ")
-            print("By shifting sequence 2 by " + str(j) + " the score is: " + str(score))
-            print(" ")
-            print_sequence(s1)
-            print_sequence(s2)
-
-def compare_sequences_continous(sequence1, sequence2, max_shift):
-    for j in range(max_shift + 1):
-        if j == 0:
-            score = continuous_score(sequence1,sequence2)
-
-            print("With no shifting the continous DNA sequence score is: "+ str(score))
-            print(" ")
-            print_sequence(sequence1)
-            print_sequence(sequence2)
-        else:
-            print(" ")
-
-            #Make copies to avoid changing the original sequences and reset sequences
-            s1 = sequence1.copy()
-            s2 = sequence2.copy()
-            #right shifting
-            for i in range(j):
-                s1.insert(0, " ")
-                s2.append(" ")
-            score = continuous_score(s1,s2)
-            print("By shifting sequence 1 by " + str(j) + " the continous score is: " + str(score))
-            print(" ")
-            print_sequence(s1)
-            print_sequence(s2)
-            #Reset sequence copies for right shift
-            s1 = sequence1.copy()
-            s2 = sequence2.copy()
-            for i in range(j):
-                s2.insert(0, " ")
-                s1.append(" ")
-            score = continuous_score(s1, s2)
-            print(" ")
-            print("By shifting sequence 2 by " + str(j) + " the continous score is: " + str(score))
-            print(" ")
+            if option == 1:
+                score = match_score(s1, s2)
+                print("By shifting sequence 2 by " + str(j) + " the matching score is: " + str(score))
+                print(" ")
+            elif option == 2:
+                score = continuous_score(s1, s2)
+                print(" ")
+                print("By shifting sequence 2 by " + str(j) + " the continous score is: " + str(score))
             print_sequence(s1)
             print_sequence(s2)
             print(" ")
-menu_choice = "Error"
+menu_choice = 0
 while menu_choice != 3:
     print("Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them")
 
@@ -160,8 +137,9 @@ while menu_choice != 3:
     print("3. Exit the program.")
     try:
         menu_choice = int(input("Your input: "))
-    except ValueError:
+    except (ValueError, TypeError):
         print("Whoops, you entered an invalid option!")
+        menu_choice = 0
     while menu_choice < 1 or menu_choice > 3:
         try:
             menu_choice = input("Please enter a valid option: ")
@@ -169,19 +147,13 @@ while menu_choice != 3:
         except (ValueError, TypeError):
             print("Whoops, you entered an invalid option!")
             menu_choice = 0
-    if menu_choice == 1:
+    if menu_choice != 3:
         output = AskForInfo()
         if output[3]:
-            compare_sequences_matches(output[0],output[1],output[2])
+            compare_sequences_matches(output[0],output[1],output[2], menu_choice)
         else:
             print("There is an error in the sequences, either they do not match in length or one of them has an unknown character in it")
-    elif menu_choice == 2:
-        output = AskForInfo()
-        if output[3]:
-            compare_sequences_continous(output[0],output[1],output[2])
-        else:
-            print("There is an error in the sequences, either they do not match in length or one of them has an unknown character in it")
-```
+
 Output: 
 ```
 Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
@@ -189,123 +161,93 @@ Please pick one of the following options by entering the respective number:
 1. Compare two DNA sequences using the number of matches method.
 2. Compare two DNA sequences using the maximum contiguous chain method.
 3. Exit the program.
-Your input: 2
-Please enter the name of the file for sequence 1: seq2.txt
-Please enter the name of the file for sequence 2: seq3.txt
-Please enter the maximum shift: 10
-With no shifting the continous DNA sequence score is: 4
- 
+Your input: 1
+Please enter the name of the file for sequence 1: seq1.txt
+Please enter the name of the file for sequence 2: seq2.txt
+Please enter the maximum shift: 8
+With no shifting the match score for the DNA sequences is: 3
+A C T G A C T T T T  
 T T T A G C C G A T  
-T T T T G T C G A T  
  
-By shifting sequence 1 by 1 the continous score is: 3
+By shifting sequence 1 by 1 the matching score is: 3
  
-  T T T A G C C G A T  
-T T T T G T C G A T    
- 
-By shifting sequence 2 by 1 the continous score is: 2
- 
+  A C T G A C T T T T  
 T T T A G C C G A T    
-  T T T T G T C G A T  
  
+By shifting sequence 2 by 1 the matching score is: 2
  
-By shifting sequence 1 by 2 the continous score is: 2
+A C T G A C T T T T    
+  T T T A G C C G A T  
  
-    T T T A G C C G A T  
-T T T T G T C G A T      
+By shifting sequence 1 by 2 the matching score is: 1
  
-By shifting sequence 2 by 2 the continous score is: 1
- 
+    A C T G A C T T T T  
 T T T A G C C G A T      
-    T T T T G T C G A T  
  
+By shifting sequence 2 by 2 the matching score is: 1
  
-By shifting sequence 1 by 3 the continous score is: 1
+A C T G A C T T T T      
+    T T T A G C C G A T  
  
-      T T T A G C C G A T  
-T T T T G T C G A T        
+By shifting sequence 1 by 3 the matching score is: 2
  
-By shifting sequence 2 by 3 the continous score is: 1
- 
+      A C T G A C T T T T  
 T T T A G C C G A T        
-      T T T T G T C G A T  
  
+By shifting sequence 2 by 3 the matching score is: 0
  
-By shifting sequence 1 by 4 the continous score is: 1
+A C T G A C T T T T        
+      T T T A G C C G A T  
  
-        T T T A G C C G A T  
-T T T T G T C G A T          
+By shifting sequence 1 by 4 the matching score is: 3
  
-By shifting sequence 2 by 4 the continous score is: 1
- 
+        A C T G A C T T T T  
 T T T A G C C G A T          
-        T T T T G T C G A T  
  
+By shifting sequence 2 by 4 the matching score is: 1
  
-By shifting sequence 1 by 5 the continous score is: 1
+A C T G A C T T T T          
+        T T T A G C C G A T  
  
-          T T T A G C C G A T  
-T T T T G T C G A T            
+By shifting sequence 1 by 5 the matching score is: 1
  
-By shifting sequence 2 by 5 the continous score is: 0
- 
+          A C T G A C T T T T  
 T T T A G C C G A T            
-          T T T T G T C G A T  
  
+By shifting sequence 2 by 5 the matching score is: 2
  
-By shifting sequence 1 by 6 the continous score is: 0
+A C T G A C T T T T            
+          T T T A G C C G A T  
  
-            T T T A G C C G A T  
-T T T T G T C G A T              
+By shifting sequence 1 by 6 the matching score is: 0
  
-By shifting sequence 2 by 6 the continous score is: 1
- 
+            A C T G A C T T T T  
 T T T A G C C G A T              
-            T T T T G T C G A T  
  
+By shifting sequence 2 by 6 the matching score is: 3
  
-By shifting sequence 1 by 7 the continous score is: 1
+A C T G A C T T T T              
+            T T T A G C C G A T  
  
-              T T T A G C C G A T  
-T T T T G T C G A T                
+By shifting sequence 1 by 7 the matching score is: 1
  
-By shifting sequence 2 by 7 the continous score is: 1
- 
+              A C T G A C T T T T  
 T T T A G C C G A T                
-              T T T T G T C G A T  
  
+By shifting sequence 2 by 7 the matching score is: 3
  
-By shifting sequence 1 by 8 the continous score is: 1
+A C T G A C T T T T                
+              T T T A G C C G A T  
  
-                T T T A G C C G A T  
-T T T T G T C G A T                  
+By shifting sequence 1 by 8 the matching score is: 1
  
-By shifting sequence 2 by 8 the continous score is: 1
- 
+                A C T G A C T T T T  
 T T T A G C C G A T                  
-                T T T T G T C G A T  
  
+By shifting sequence 2 by 8 the matching score is: 2
  
-By shifting sequence 1 by 9 the continous score is: 1
- 
-                  T T T A G C C G A T  
-T T T T G T C G A T                    
- 
-By shifting sequence 2 by 9 the continous score is: 1
- 
-T T T A G C C G A T                    
-                  T T T T G T C G A T  
- 
- 
-By shifting sequence 1 by 10 the continous score is: 0
- 
-                    T T T A G C C G A T  
-T T T T G T C G A T                      
- 
-By shifting sequence 2 by 10 the continous score is: 0
- 
-T T T A G C C G A T                      
-                    T T T T G T C G A T  
+A C T G A C T T T T                  
+                T T T A G C C G A T  
  
 Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
 Please pick one of the following options by entering the respective number:
@@ -315,4 +257,5 @@ Please pick one of the following options by entering the respective number:
 Your input: 3
 
 Process finished with exit code 0
+
 ```
