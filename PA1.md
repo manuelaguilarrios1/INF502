@@ -153,8 +153,8 @@ while menu_choice != 3:
             compare_sequences_matches(output[0],output[1],output[2], menu_choice)
         else:
             print("There is an error in the sequences, either they do not match in length or one of them has an unknown character in it")
-
-Output: 
+```
+Output:
 ```
 Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
 Please pick one of the following options by entering the respective number:
@@ -257,5 +257,4 @@ Please pick one of the following options by entering the respective number:
 Your input: 3
 
 Process finished with exit code 0
-
 ```
