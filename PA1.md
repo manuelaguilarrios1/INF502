@@ -77,6 +77,8 @@ def continuous_score(s1, s2):
     score_count.sort()
     return score_count[-1]
 def compare_sequences_matches(sequence1, sequence2, max_shift, option):
+    highest_score = 0
+    score_loc = []
     for j in range(max_shift+1):
         if j == 0:
             if option == 1:
@@ -85,12 +87,18 @@ def compare_sequences_matches(sequence1, sequence2, max_shift, option):
                 print_sequence(sequence1)
                 print_sequence(sequence2)
                 print(" ")
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [1, j]
             elif option == 2:
                 score = continuous_score(sequence1, sequence2)
                 print("With no shifting the continous DNA sequence score is: " + str(score))
                 print_sequence(sequence1)
                 print_sequence(sequence2)
                 print(" ")
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [1, j]
         else:
             #Make copies to avoid changing the original sequences and reset sequences
             s1 = sequence1.copy()
@@ -103,10 +111,16 @@ def compare_sequences_matches(sequence1, sequence2, max_shift, option):
                 score = match_score(s1,s2)
                 print("By shifting sequence 1 by " + str(j) + " the matching score is: " + str(score))
                 print(" ")
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [1, j]
             elif option == 2:
                 score = continuous_score(s1, s2)
                 print(" ")
                 print("By shifting sequence 1 by " + str(j) + " the continous score is: " + str(score))
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [1, j]
             print_sequence(s1)
             print_sequence(s2)
             print(" ")
@@ -120,13 +134,21 @@ def compare_sequences_matches(sequence1, sequence2, max_shift, option):
                 score = match_score(s1, s2)
                 print("By shifting sequence 2 by " + str(j) + " the matching score is: " + str(score))
                 print(" ")
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [2, j]
             elif option == 2:
                 score = continuous_score(s1, s2)
                 print(" ")
                 print("By shifting sequence 2 by " + str(j) + " the continous score is: " + str(score))
+                if score > highest_score:
+                    highest_score = score
+                    score_loc = [2, j]
             print_sequence(s1)
             print_sequence(s2)
             print(" ")
+    print("The highest score, " + str(highest_score) + ", can be found be shifting sequence " + str(score_loc[0])+" by " + str(score_loc[1]))
+    print(" ")
 menu_choice = 0
 while menu_choice != 3:
     print("Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them")
@@ -248,6 +270,487 @@ By shifting sequence 2 by 8 the matching score is: 2
  
 A C T G A C T T T T                  
                 T T T A G C C G A T  
+ 
+The highest score, 3, can be found be shifting sequence 1 by 0
+ 
+Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
+Please pick one of the following options by entering the respective number:
+1. Compare two DNA sequences using the number of matches method.
+2. Compare two DNA sequences using the maximum contiguous chain method.
+3. Exit the program.
+Your input: 2
+Please enter the name of the file for sequence 1: seq1.txt
+Please enter the name of the file for sequence 2: seq2.txt
+Please enter the maximum shift: 8
+With no shifting the continous DNA sequence score is: 1
+A C T G A C T T T T  
+T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 1 the continous score is: 1
+  A C T G A C T T T T  
+T T T A G C C G A T    
+ 
+ 
+By shifting sequence 2 by 1 the continous score is: 1
+A C T G A C T T T T    
+  T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 2 the continous score is: 1
+    A C T G A C T T T T  
+T T T A G C C G A T      
+ 
+ 
+By shifting sequence 2 by 2 the continous score is: 1
+A C T G A C T T T T      
+    T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 3 the continous score is: 1
+      A C T G A C T T T T  
+T T T A G C C G A T        
+ 
+ 
+By shifting sequence 2 by 3 the continous score is: 0
+A C T G A C T T T T        
+      T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 4 the continous score is: 2
+        A C T G A C T T T T  
+T T T A G C C G A T          
+ 
+ 
+By shifting sequence 2 by 4 the continous score is: 1
+A C T G A C T T T T          
+        T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 5 the continous score is: 1
+          A C T G A C T T T T  
+T T T A G C C G A T            
+ 
+ 
+By shifting sequence 2 by 5 the continous score is: 2
+A C T G A C T T T T            
+          T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 6 the continous score is: 0
+            A C T G A C T T T T  
+T T T A G C C G A T              
+ 
+ 
+By shifting sequence 2 by 6 the continous score is: 3
+A C T G A C T T T T              
+            T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 7 the continous score is: 1
+              A C T G A C T T T T  
+T T T A G C C G A T                
+ 
+ 
+By shifting sequence 2 by 7 the continous score is: 3
+A C T G A C T T T T                
+              T T T A G C C G A T  
+ 
+ 
+By shifting sequence 1 by 8 the continous score is: 1
+                A C T G A C T T T T  
+T T T A G C C G A T                  
+ 
+ 
+By shifting sequence 2 by 8 the continous score is: 2
+A C T G A C T T T T                  
+                T T T A G C C G A T  
+ 
+The highest score, 3, can be found be shifting sequence 2 by 6
+ 
+Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
+Please pick one of the following options by entering the respective number:
+1. Compare two DNA sequences using the number of matches method.
+2. Compare two DNA sequences using the maximum contiguous chain method.
+3. Exit the program.
+Your input: 1
+Please enter the name of the file for sequence 1: seq1.txt
+Please enter the name of the file for sequence 2: seq3.txt
+Please enter the maximum shift: 8
+With no shifting the match score for the DNA sequences is: 2
+A C T G A C T T T T  
+T T T T G T C G A T  
+ 
+By shifting sequence 1 by 1 the matching score is: 4
+ 
+  A C T G A C T T T T  
+T T T T G T C G A T    
+ 
+By shifting sequence 2 by 1 the matching score is: 2
+ 
+A C T G A C T T T T    
+  T T T T G T C G A T  
+ 
+By shifting sequence 1 by 2 the matching score is: 1
+ 
+    A C T G A C T T T T  
+T T T T G T C G A T      
+ 
+By shifting sequence 2 by 2 the matching score is: 2
+ 
+A C T G A C T T T T      
+    T T T T G T C G A T  
+ 
+By shifting sequence 1 by 3 the matching score is: 2
+ 
+      A C T G A C T T T T  
+T T T T G T C G A T        
+ 
+By shifting sequence 2 by 3 the matching score is: 2
+ 
+A C T G A C T T T T        
+      T T T T G T C G A T  
+ 
+By shifting sequence 1 by 4 the matching score is: 2
+ 
+        A C T G A C T T T T  
+T T T T G T C G A T          
+ 
+By shifting sequence 2 by 4 the matching score is: 3
+ 
+A C T G A C T T T T          
+        T T T T G T C G A T  
+ 
+By shifting sequence 1 by 5 the matching score is: 1
+ 
+          A C T G A C T T T T  
+T T T T G T C G A T            
+ 
+By shifting sequence 2 by 5 the matching score is: 3
+ 
+A C T G A C T T T T            
+          T T T T G T C G A T  
+ 
+By shifting sequence 1 by 6 the matching score is: 0
+ 
+            A C T G A C T T T T  
+T T T T G T C G A T              
+ 
+By shifting sequence 2 by 6 the matching score is: 4
+ 
+A C T G A C T T T T              
+            T T T T G T C G A T  
+ 
+By shifting sequence 1 by 7 the matching score is: 1
+ 
+              A C T G A C T T T T  
+T T T T G T C G A T                
+ 
+By shifting sequence 2 by 7 the matching score is: 3
+ 
+A C T G A C T T T T                
+              T T T T G T C G A T  
+ 
+By shifting sequence 1 by 8 the matching score is: 1
+ 
+                A C T G A C T T T T  
+T T T T G T C G A T                  
+ 
+By shifting sequence 2 by 8 the matching score is: 2
+ 
+A C T G A C T T T T                  
+                T T T T G T C G A T  
+ 
+The highest score, 4, can be found be shifting sequence 1 by 1
+ 
+Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
+Please pick one of the following options by entering the respective number:
+1. Compare two DNA sequences using the number of matches method.
+2. Compare two DNA sequences using the maximum contiguous chain method.
+3. Exit the program.
+Your input: 2
+Please enter the name of the file for sequence 1: seq1.txt
+Please enter the name of the file for sequence 2: seq3.txt
+Please enter the maximum shift: 8
+With no shifting the continous DNA sequence score is: 1
+A C T G A C T T T T  
+T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 1 the continous score is: 2
+  A C T G A C T T T T  
+T T T T G T C G A T    
+ 
+ 
+By shifting sequence 2 by 1 the continous score is: 1
+A C T G A C T T T T    
+  T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 2 the continous score is: 1
+    A C T G A C T T T T  
+T T T T G T C G A T      
+ 
+ 
+By shifting sequence 2 by 2 the continous score is: 1
+A C T G A C T T T T      
+    T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 3 the continous score is: 1
+      A C T G A C T T T T  
+T T T T G T C G A T        
+ 
+ 
+By shifting sequence 2 by 3 the continous score is: 1
+A C T G A C T T T T        
+      T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 4 the continous score is: 2
+        A C T G A C T T T T  
+T T T T G T C G A T          
+ 
+ 
+By shifting sequence 2 by 4 the continous score is: 2
+A C T G A C T T T T          
+        T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 5 the continous score is: 1
+          A C T G A C T T T T  
+T T T T G T C G A T            
+ 
+ 
+By shifting sequence 2 by 5 the continous score is: 3
+A C T G A C T T T T            
+          T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 6 the continous score is: 0
+            A C T G A C T T T T  
+T T T T G T C G A T              
+ 
+ 
+By shifting sequence 2 by 6 the continous score is: 4
+A C T G A C T T T T              
+            T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 7 the continous score is: 1
+              A C T G A C T T T T  
+T T T T G T C G A T                
+ 
+ 
+By shifting sequence 2 by 7 the continous score is: 3
+A C T G A C T T T T                
+              T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 8 the continous score is: 1
+                A C T G A C T T T T  
+T T T T G T C G A T                  
+ 
+ 
+By shifting sequence 2 by 8 the continous score is: 2
+A C T G A C T T T T                  
+                T T T T G T C G A T  
+ 
+The highest score, 4, can be found be shifting sequence 2 by 6
+ 
+Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
+Please pick one of the following options by entering the respective number:
+1. Compare two DNA sequences using the number of matches method.
+2. Compare two DNA sequences using the maximum contiguous chain method.
+3. Exit the program.
+Your input: 1
+Please enter the name of the file for sequence 1: seq2.txt
+That file was not found, please enter a valid file name
+Please enter the name of the file for sequence 1: seq2.txt
+Please enter the name of the file for sequence 2: seq3.txt
+Please enter the maximum shift: 8
+With no shifting the match score for the DNA sequences is: 8
+T T T A G C C G A T  
+T T T T G T C G A T  
+ 
+By shifting sequence 1 by 1 the matching score is: 4
+ 
+  T T T A G C C G A T  
+T T T T G T C G A T    
+ 
+By shifting sequence 2 by 1 the matching score is: 2
+ 
+T T T A G C C G A T    
+  T T T T G T C G A T  
+ 
+By shifting sequence 1 by 2 the matching score is: 2
+ 
+    T T T A G C C G A T  
+T T T T G T C G A T      
+ 
+By shifting sequence 2 by 2 the matching score is: 1
+ 
+T T T A G C C G A T      
+    T T T T G T C G A T  
+ 
+By shifting sequence 1 by 3 the matching score is: 3
+ 
+      T T T A G C C G A T  
+T T T T G T C G A T        
+ 
+By shifting sequence 2 by 3 the matching score is: 1
+ 
+T T T A G C C G A T        
+      T T T T G T C G A T  
+ 
+By shifting sequence 1 by 4 the matching score is: 1
+ 
+        T T T A G C C G A T  
+T T T T G T C G A T          
+ 
+By shifting sequence 2 by 4 the matching score is: 1
+ 
+T T T A G C C G A T          
+        T T T T G T C G A T  
+ 
+By shifting sequence 1 by 5 the matching score is: 2
+ 
+          T T T A G C C G A T  
+T T T T G T C G A T            
+ 
+By shifting sequence 2 by 5 the matching score is: 0
+ 
+T T T A G C C G A T            
+          T T T T G T C G A T  
+ 
+By shifting sequence 1 by 6 the matching score is: 0
+ 
+            T T T A G C C G A T  
+T T T T G T C G A T              
+ 
+By shifting sequence 2 by 6 the matching score is: 1
+ 
+T T T A G C C G A T              
+            T T T T G T C G A T  
+ 
+By shifting sequence 1 by 7 the matching score is: 1
+ 
+              T T T A G C C G A T  
+T T T T G T C G A T                
+ 
+By shifting sequence 2 by 7 the matching score is: 1
+ 
+T T T A G C C G A T                
+              T T T T G T C G A T  
+ 
+By shifting sequence 1 by 8 the matching score is: 1
+ 
+                T T T A G C C G A T  
+T T T T G T C G A T                  
+ 
+By shifting sequence 2 by 8 the matching score is: 1
+ 
+T T T A G C C G A T                  
+                T T T T G T C G A T  
+ 
+The highest score, 8, can be found be shifting sequence 1 by 0
+ 
+Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
+Please pick one of the following options by entering the respective number:
+1. Compare two DNA sequences using the number of matches method.
+2. Compare two DNA sequences using the maximum contiguous chain method.
+3. Exit the program.
+Your input: 2
+Please enter the name of the file for sequence 1: seq2.tx
+That file was not found, please enter a valid file name
+Please enter the name of the file for sequence 1: seq2.txt
+Please enter the name of the file for sequence 2: seq3.txt
+Please enter the maximum shift: 8
+With no shifting the continous DNA sequence score is: 4
+T T T A G C C G A T  
+T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 1 the continous score is: 3
+  T T T A G C C G A T  
+T T T T G T C G A T    
+ 
+ 
+By shifting sequence 2 by 1 the continous score is: 2
+T T T A G C C G A T    
+  T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 2 the continous score is: 2
+    T T T A G C C G A T  
+T T T T G T C G A T      
+ 
+ 
+By shifting sequence 2 by 2 the continous score is: 1
+T T T A G C C G A T      
+    T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 3 the continous score is: 1
+      T T T A G C C G A T  
+T T T T G T C G A T        
+ 
+ 
+By shifting sequence 2 by 3 the continous score is: 1
+T T T A G C C G A T        
+      T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 4 the continous score is: 1
+        T T T A G C C G A T  
+T T T T G T C G A T          
+ 
+ 
+By shifting sequence 2 by 4 the continous score is: 1
+T T T A G C C G A T          
+        T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 5 the continous score is: 1
+          T T T A G C C G A T  
+T T T T G T C G A T            
+ 
+ 
+By shifting sequence 2 by 5 the continous score is: 0
+T T T A G C C G A T            
+          T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 6 the continous score is: 0
+            T T T A G C C G A T  
+T T T T G T C G A T              
+ 
+ 
+By shifting sequence 2 by 6 the continous score is: 1
+T T T A G C C G A T              
+            T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 7 the continous score is: 1
+              T T T A G C C G A T  
+T T T T G T C G A T                
+ 
+ 
+By shifting sequence 2 by 7 the continous score is: 1
+T T T A G C C G A T                
+              T T T T G T C G A T  
+ 
+ 
+By shifting sequence 1 by 8 the continous score is: 1
+                T T T A G C C G A T  
+T T T T G T C G A T                  
+ 
+ 
+By shifting sequence 2 by 8 the continous score is: 1
+T T T A G C C G A T                  
+                T T T T G T C G A T  
+ 
+The highest score, 4, can be found be shifting sequence 1 by 0
  
 Welcome, this program will open two files of your choosing and compare the DNA sequences found inside them
 Please pick one of the following options by entering the respective number:
