@@ -4,6 +4,20 @@ For both these methods, a user input max shift is needed to add into the mathcin
 For the number of matches method, a for loop check each char in both sequences and see if they match. If they match, a match counter increases and the then final match counter will be given as the score.
 For the maximum contiguous method, a for loop will check each char in both sequences and see if they match. A match counter will increase with each match, but if the char don't match the match counter will be put in a match counter list and then be reset to 0. 
 To shift the sequences, the appropiate number of spaces will be added to the beginning or the end of the  respective list. The two sequences will then be printed out for each shift along with the score so that the user can see the result. 
+
+The split function will split a str into a list of each individual character. 
+
+The open file function will read a file, and then split into a list of each individual character. 
+
+The check sequence function will check two sequences and check to see if they are the same length and if either of them have an unknown character. If they are the same length and have no unknown characters, it will return True, otherwise it will return False. 
+
+The match score function will return the number of matching characters in two sequences.
+
+The continous score function will return the number of longest chain of matching characters. A match counter will increase everytime a match is detected. Once a match is not detected the match counter will be appended to a match_count list and then be reset. After the every character has been checked, the score_count will be sorted and the highest value will be returned as the continous score. 
+
+The compare sequences function will compare the sequences and get the matching score. It will loop for the max_shift + 1 times. For the first loop, it will compare the two sequences, and print out the sequences and the score to show the user. For every other loop, it will insert i number of " "(spaces) to sequence 1 and append i number of " "(spaces) to sequence 2, and then make the correct comparison. It will then print out the shifted strings to the user and the score. Afterwards, it will reset sequence 1 and then insert i number of " " spaces to sequence 2 and append i number of " " spaces to sequence 1 and then make the correct comparison. Again it will print out the shifted strings and the score to the user. It will also keep track of the highest score that appears with the least amount of shifting, by storing the having a variable called the highest score and by having an array hold the current highest score's position. 
+
+The Ask For Info function will ask the user for all the needed info. It will get the first sequence file name, the second sequence file name, the max shift. It will also check if the file contents and max shift values are allowed. If the filenames for the sequences are not entered are not found, a while loop will reprompt the user to enter the filename again until a file is found. If the max shift is bigger than the length of one of the files or if the user enters something that is not an integer, a while loop will reprompt the user to reenter the max shift. Next a function called check sequences will check to see if there any errors in the sequences. If no errors are found a True will be returned, otherwise a Flase will be returned. A list with sequence 1, sequence 2, max shift, and True or False will be returned.  
 Code:
 ```python
 def AskForInfo():
